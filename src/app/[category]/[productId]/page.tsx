@@ -1,9 +1,16 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import getProduct from '@/app/actions/getProduct'
+import PRODUCTS_MOCK from '@/mocks/products'
 
 type ProductPageProps = {
   params: Promise<{ category: string; productId: string }>
+}
+
+export async function generateStaticParams() {
+  return Object.entries(PRODUCTS_MOCK).flatMap(([category, products]) =>
+    products.map((product) => ({ category, productId: product.id }))
+  )
 }
 
 export default async function ProductPage(props: ProductPageProps) {
